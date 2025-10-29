@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.material.icons.filled.LibraryMusic
 
 
 class MainActivity : ComponentActivity() {
@@ -110,7 +111,7 @@ class MainActivity : ComponentActivity() {
             )
             NavigationItem(
                 title =  stringResource(id = R.string.playlists),
-                icon = Icons.Default.FavoriteBorder,
+                icon = Icons.Default.LibraryMusic,
                 onClick = {}
             )
             NavigationItem(
