@@ -4,4 +4,6 @@
     <string name="playlists">Плейлисты</string>
     <string name="favorites">Избранное</string>
     <string name="settings">Настройки</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>
