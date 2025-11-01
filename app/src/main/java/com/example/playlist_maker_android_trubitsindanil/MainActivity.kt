@@ -2,7 +2,6 @@ package com.example.playlist_maker_android_trubitsindanil
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -11,13 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -29,11 +27,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.compose.material.icons.filled.LibraryMusic
 
 
@@ -102,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 .padding(top = 8.dp, start = 16.dp, end = 16.dp),
         ) {
 
-            NavigationItem(
+            MainActivityNavigationItem(
                 title = stringResource(id = R.string.search),
                 icon = Icons.Default.Search,
                 onClick = {
@@ -110,17 +105,17 @@ class MainActivity : ComponentActivity() {
                     context.startActivity(intent)
                 }
             )
-            NavigationItem(
+            MainActivityNavigationItem(
                 title =  stringResource(id = R.string.playlists),
                 icon = Icons.Default.LibraryMusic,
                 onClick = {}
             )
-            NavigationItem(
+            MainActivityNavigationItem(
                 title =  stringResource(id = R.string.favorites),
                 icon = Icons.Default.FavoriteBorder,
                 onClick = {}
             )
-            NavigationItem(
+            MainActivityNavigationItem(
                 title =  stringResource(id = R.string.settings),
                 icon = Icons.Default.Settings,
                 onClick = {
@@ -132,7 +127,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun NavigationItem(
+    fun MainActivityNavigationItem(
         title: String,
         icon: ImageVector,
         onClick: () -> Unit
@@ -161,10 +156,10 @@ class MainActivity : ComponentActivity() {
             )
 
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
 
             )
         }

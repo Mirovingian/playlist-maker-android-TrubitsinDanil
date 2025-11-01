@@ -6,4 +6,9 @@
     <string name="settings">Настройки</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_search">SearchActivity</string>
+
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="write_to_support">Написать в техподдержку</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
 </resources>

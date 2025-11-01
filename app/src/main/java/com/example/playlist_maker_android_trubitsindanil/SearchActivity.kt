@@ -57,7 +57,7 @@ fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        SearchTopBar(onBackClick = onBackClick)
+        CommonTopBar(onBackClick = onBackClick, stringResource(R.string.search))
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -67,36 +67,7 @@ fun SearchScreen(
     }
 }
 
-@Composable
-fun SearchTopBar(onBackClick: () -> Unit) {
-    Box (
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-    ){
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
 
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Text(
-                text = stringResource(id = R.string.search),
-                fontSize = 22.sp,
-            )
-        }
-
-    }
-}
 
 @Composable
 fun SearchInput(onSearchClick : () -> Unit) {
