@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_trubitsindanil.ui.theme
+package com.example.playlist_maker_android_trubitsindanil.theme
 
 import androidx.compose.ui.graphics.Color
 
