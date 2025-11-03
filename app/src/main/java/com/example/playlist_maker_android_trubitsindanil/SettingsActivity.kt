@@ -46,19 +46,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.playlist_maker_android_trubitsindanil.ui.theme.PlaylistmakerandroidTrubitsinDanilTheme
 
-class SettingsActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            PlaylistmakerandroidTrubitsinDanilTheme {
-                SettingsScreen({})
-            }
-        }
-    }
-}
 
 @Composable
 fun SettingsScreen(
@@ -78,39 +66,44 @@ fun SettingsScreen(
         ) {
             DarkThemeSettingItem()
 
+            val textShare = stringResource(R.string.choose_playlist_maker)
             SettingsNavigationItem(
                 title = stringResource(R.string.share_app),
                 icon = Icons.Default.Share,
                 onClick = {
-                    val message = "Привет, Я пользуюсь Playlist Maker!"
+                    val message = textShare
                     val shareIntent = Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TEXT, message)
                     }
-                    context.startActivity(Intent.createChooser(shareIntent, "Поделиться через"))
+                    context.startActivity(Intent.createChooser(shareIntent, "share"))
                 },
                 isArrow = false,
             )
 
+            val textMailOfUser = R.string.mail_of_user
+            val textMessageToDevelopers = R.string.message_to_developers
+            val textThanks = R.string.thanks
             SettingsNavigationItem(
                 title = stringResource(R.string.write_to_support),
                 icon = Icons.Default.SupportAgent,
                 onClick = {
                     val shareIntent = Intent(Intent.ACTION_SENDTO)
                     shareIntent.data = Uri.parse("mailto:")
-                    shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("aeshmuratov@sfedu.ru"))
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Сообщение разработчикам и разработчицам приложения Playlist Make")
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Спасибо разработчикам и разработчицам за крутое приложение!")
+                    shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(textMailOfUser))
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, textMessageToDevelopers)
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, textThanks)
                     context.startActivity(shareIntent)
                 },
                 isArrow = false,
             )
 
+            val textUri = stringResource(R.string.uri)
             SettingsNavigationItem(
                 title = stringResource(R.string.user_agreement),
                 icon = Icons.AutoMirrored.Filled.ArrowForwardIos,
                 onClick = {
-                    val url = Uri.parse("https://yandex.ru/legal/practicum_offer")
+                    val url = Uri.parse(textUri)
                     val shareIntent = Intent(Intent.ACTION_VIEW, url)
                     context.startActivity(shareIntent)
                 },

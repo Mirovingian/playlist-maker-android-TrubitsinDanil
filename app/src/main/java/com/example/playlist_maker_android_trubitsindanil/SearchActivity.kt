@@ -37,16 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.ui.theme.PlaylistmakerandroidTrubitsinDanilTheme
 
-class SearchActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PlaylistmakerandroidTrubitsinDanilTheme {
-                SearchScreen({}, {})
-            }
-        }
-    }
-}
+
 
 @Composable
 fun SearchScreen(

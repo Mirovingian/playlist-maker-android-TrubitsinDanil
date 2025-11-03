@@ -11,4 +11,9 @@
     <string name="share_app">Поделиться приложением</string>
     <string name="write_to_support">Написать в техподдержку</string>
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="choose_playlist_maker">Выбирай Playlist Maker</string>
+    <string name="mail_of_user">trubitsin@sfedu.ru</string>
+    <string name="message_to_developers">Сообщение разработчикам и разработчицам приложения Playlist Make</string>
+    <string name="thanks">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="uri">https://yandex.ru/legal/practicum_offer</string>
 </resources>
