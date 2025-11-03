@@ -7,6 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.playlist_maker_android_trubitsindanil.ui.activity.MainActivityScreen
+import com.example.playlist_maker_android_trubitsindanil.ui.activity.SearchScreen
+import com.example.playlist_maker_android_trubitsindanil.ui.activity.SettingsScreen
 
 
 @Composable
@@ -35,4 +38,5 @@ fun PlaylistHost(
         }
     }
 }
+
 

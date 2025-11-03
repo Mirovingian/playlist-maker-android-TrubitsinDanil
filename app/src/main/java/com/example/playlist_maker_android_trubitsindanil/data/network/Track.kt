@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_trubitsindanil.domain.models
+package com.example.playlist_maker_android_trubitsindanil.data.network
 
 data class Track(
     val trackName: String,

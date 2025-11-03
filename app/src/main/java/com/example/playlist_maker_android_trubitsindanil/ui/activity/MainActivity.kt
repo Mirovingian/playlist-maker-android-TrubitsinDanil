@@ -1,8 +1,6 @@
-package com.example.playlist_maker_android_trubitsindanil
+package com.example.playlist_maker_android_trubitsindanil.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -16,7 +14,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -32,12 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.navigation.NavHostController
-import com.example.playlist_maker_android_trubitsindanil.ui.theme.PlaylistmakerandroidTrubitsinDanilTheme
-
+import com.example.playlist_maker_android_trubitsindanil.PlaylistHost
+import com.example.playlist_maker_android_trubitsindanil.R
+import com.example.playlist_maker_android_trubitsindanil.*
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             PlaylistHost(AppScreens.Main)
         }
