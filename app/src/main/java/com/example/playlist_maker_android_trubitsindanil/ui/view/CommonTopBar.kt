@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_trubitsindanil
+package com.example.playlist_maker_android_trubitsindanil.ui.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row

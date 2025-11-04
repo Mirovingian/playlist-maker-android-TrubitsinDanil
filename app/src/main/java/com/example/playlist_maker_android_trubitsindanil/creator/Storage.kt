@@ -5,14 +5,14 @@ import com.example.playlist_maker_android_trubitsindanil.data.dto.TrackDto
 class Storage {
     private val listTracks = listOf(
         TrackDto(
-            trackName = "Владивосток 2000",
-            artistName = "Мумий Троль",
-            trackTimeMillis = 158000 // 2:38
+            trackName = "Yesterday (Remastered 2009)",
+            artistName = "The Beatles",
+            trackTimeMillis = 175000
         ),
         TrackDto(
-            trackName = "Группа крови",
-            artistName = "Кино",
-            trackTimeMillis = 283000 // 4:43
+            trackName = "Here Comes The Sun",
+            artistName = "The Beatles",
+            trackTimeMillis = 241000
         ),
         TrackDto(
             trackName = "Не смотри назад",
