@@ -4,12 +4,13 @@ import com.example.playlist_maker_android_trubitsindanil.domain.NetworkClient
 import com.example.playlist_maker_android_trubitsindanil.data.dto.TracksSearchRequest
 import com.example.playlist_maker_android_trubitsindanil.data.dto.TracksSearchResponse
 import com.example.playlist_maker_android_trubitsindanil.domain.TracksRepository
+import kotlinx.coroutines.delay
 
 class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
 
     override suspend fun searchTracks(expression: String): List<Track> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
-        //delay(1000) // Эммулируем задержку ответа
+        delay(1000) // Эммулируем задержку ответа
         return if (response.resultCode == 200) { // успешный запрос
             (response as TracksSearchResponse).results.map {
                 val seconds = it.trackTimeMillis / 1000

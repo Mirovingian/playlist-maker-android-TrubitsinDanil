@@ -16,4 +16,8 @@
     <string name="message_to_developers">Сообщение разработчикам и разработчицам приложения Playlist Make</string>
     <string name="thanks">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="uri">https://yandex.ru/legal/practicum_offer</string>
+
+    <string name="tracks_were_not_found">Треки не были найдены</string>
+    <string name="input_string_for_search">Введите строку для поиска</string>
+    <string name="error">Ошибка</string>
 </resources>

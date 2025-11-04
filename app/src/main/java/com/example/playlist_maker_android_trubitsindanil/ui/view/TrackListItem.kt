@@ -3,6 +3,7 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,9 +34,10 @@ import com.example.playlist_maker_android_trubitsindanil.R
 @Composable
 fun TrackListItem(track: Track) {
     Row(
-        modifier = Modifier.fillMaxWidth().height(61.dp),
+        modifier = Modifier.fillMaxWidth().height(61.dp).clickable(onClick = {}),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_music),

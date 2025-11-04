@@ -86,7 +86,7 @@ fun SearchScreen(
             trailingIcon = {
                 if (!text.isEmpty())
                 {
-                    IconButton({text = ""}) {
+                    IconButton({text = ""; viewModel.resetState()}) {
                         Icon(
                             imageVector = Icons.Default.Clear,
                             contentDescription = "Clear",
@@ -112,7 +112,7 @@ fun SearchScreen(
         when (screenState) {
             is SearchState.Initial -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Введите строку для поиска")
+                    Text(stringResource(R.string.input_string_for_search))
                 }
             }
 
@@ -127,6 +127,15 @@ fun SearchScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
+                    if (tracks.isEmpty()) {
+
+                        item {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text(stringResource(R.string.tracks_were_not_found))
+                            }
+                        }
+                    }
+
                     items(tracks.size) { index ->
                         TrackListItem(track = tracks[index])
                     }
@@ -136,7 +145,7 @@ fun SearchScreen(
             is SearchState.Fail -> {
                 val error = (screenState as SearchState.Fail).error
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Ошибка: $error", color = Color.Red)
+                    Text("${stringResource(R.string.error)}: $error", color = Color.Red)
                 }
             }
         }
