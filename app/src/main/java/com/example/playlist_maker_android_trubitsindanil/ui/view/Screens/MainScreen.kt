@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -39,7 +38,7 @@ import com.example.playlist_maker_android_trubitsindanil.ui.AppScreens
 
 @Composable
 fun MainScreen(navController : NavHostController) {
-    val backgroundColor : Color = Color(0xFF3772E7);
+    val backgroundColor : Color = Color(0xFF3772E7)
 
     Column(
         modifier = Modifier
@@ -78,7 +77,6 @@ fun MainScreenTopBar() {
 
 @Composable
 fun MainScreenContent(onClickSearch : () -> Unit, onClickSettings: () -> Unit) {
-    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()

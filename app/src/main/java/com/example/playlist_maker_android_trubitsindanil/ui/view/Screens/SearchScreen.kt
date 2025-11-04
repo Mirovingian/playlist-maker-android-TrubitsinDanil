@@ -9,13 +9,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,7 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
 import com.example.playlist_maker_android_trubitsindanil.data.SearchState
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
@@ -53,10 +59,19 @@ fun SearchScreen(
             .padding(top = 48.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth(),
     ) {
-        OutlinedTextField(
+        TextField(
             value = text,
             onValueChange = {
                 text = it
+            },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.search),
+                    style = TextStyle(
+                        fontSize = 21.sp,
+                        color = Color(0xFFAEAFB4)
+                    ),
+                )
             },
             leadingIcon = {
                 Icon(
@@ -64,10 +79,32 @@ fun SearchScreen(
                         viewModel.search(text)
                     },
                     imageVector = Icons.Filled.Search,
-                    contentDescription = "Search Icon"
+                    contentDescription = "Search Icon",
+                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            trailingIcon = {
+                if (!text.isEmpty())
+                {
+                    IconButton({text = ""}) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Clear",
+                            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
+                        )
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFFE6E8EB),
+                unfocusedContainerColor = Color(0xFFE6E8EB),
+                disabledContainerColor = Color(0xFFE6E8EB),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+            ),
+            shape = RoundedCornerShape(8.dp),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.height(16.dp))
