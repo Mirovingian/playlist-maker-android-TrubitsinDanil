@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -36,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
 import com.example.playlist_maker_android_trubitsindanil.data.SearchState
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
+import com.example.playlist_maker_android_trubitsindanil.ui.view.HistoryRequests
 import com.example.playlist_maker_android_trubitsindanil.ui.view.TrackListItem
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchViewModel
 
@@ -44,11 +50,23 @@ import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchVie
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel,
+    searchViewModel: SearchViewModel,
     onBackClick : () -> Unit
 ) {
-    val screenState by viewModel.searchScreenState.collectAsState()
+    val screenState by searchViewModel.searchScreenState.collectAsState()
     var text by remember { mutableStateOf("") }
+    var historyList by remember { mutableStateOf<List<String>>(emptyList()) }
+    var isFocused by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(text) {
+        historyList = searchViewModel.getHistoryList()
+    }
+
+    LaunchedEffect(text) {
+        searchViewModel.updateQuery(text)
+    }
 
     CommonTopBar(onBackClick = onBackClick, stringResource(R.string.search))
 
@@ -75,9 +93,9 @@ fun SearchScreen(
             },
             leadingIcon = {
                 Icon(
-                    modifier = Modifier.clickable {
-                        viewModel.search(text)
-                    },
+//                    modifier = Modifier.clickable {
+//                        searchViewModel.performSearch(text)
+//                    },
                     imageVector = Icons.Filled.Search,
                     contentDescription = "Search Icon",
                     tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
@@ -86,7 +104,7 @@ fun SearchScreen(
             trailingIcon = {
                 if (!text.isEmpty())
                 {
-                    IconButton({text = ""; viewModel.resetState()}) {
+                    IconButton({text = ""; searchViewModel.clearSearch()}) {
                         Icon(
                             imageVector = Icons.Default.Clear,
                             contentDescription = "Clear",
@@ -95,7 +113,11 @@ fun SearchScreen(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().height(52.dp),
+            modifier = Modifier.fillMaxWidth()
+                .height(52.dp)
+                .onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
+                },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFFE6E8EB),
                 unfocusedContainerColor = Color(0xFFE6E8EB),
@@ -108,6 +130,14 @@ fun SearchScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+        if (isFocused && text.isEmpty() && historyList.isNotEmpty()) {
+            HistoryRequests(
+                historyList = historyList,
+                onClick = { word ->
+                    text = word
+                }
+            )
+        }
 
         when (screenState) {
             is SearchState.Initial -> {
@@ -123,6 +153,7 @@ fun SearchScreen(
             }
 
             is SearchState.Success -> {
+                //focusManager.clearFocus()
                 val tracks = (screenState as SearchState.Success).list
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()

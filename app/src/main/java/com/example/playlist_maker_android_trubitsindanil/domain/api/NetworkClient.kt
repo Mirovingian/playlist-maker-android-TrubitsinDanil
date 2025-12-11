@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_trubitsindanil.domain
+package com.example.playlist_maker_android_trubitsindanil.domain.api
 
 import com.example.playlist_maker_android_trubitsindanil.data.dto.BaseResponse
 

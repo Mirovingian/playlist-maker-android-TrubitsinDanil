@@ -26,7 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.playlist_maker_android_trubitsindanil.data.network.Track
+import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.R
 
 
