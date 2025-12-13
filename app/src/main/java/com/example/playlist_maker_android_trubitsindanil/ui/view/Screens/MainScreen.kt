@@ -47,8 +47,10 @@ fun MainScreen(navController : NavHostController) {
     ) {
         MainScreenTopBar()
 
-        MainScreenContent({ navController.navigate(AppScreens.Search.name) }, { navController.navigate(
-            AppScreens.Settings.name) })
+        MainScreenContent({ navController.navigate(AppScreens.Search.name) },
+            { navController.navigate(AppScreens.Settings.name) },
+            {navController.navigate(AppScreens.Playlists.name)},
+            {})
     }
 
 }
@@ -76,7 +78,7 @@ fun MainScreenTopBar() {
 }
 
 @Composable
-fun MainScreenContent(onClickSearch : () -> Unit, onClickSettings: () -> Unit) {
+fun MainScreenContent(onClickSearch : () -> Unit, onClickSettings: () -> Unit, onClickPlaylists: () -> Unit, onClickFavorites: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -98,12 +100,12 @@ fun MainScreenContent(onClickSearch : () -> Unit, onClickSettings: () -> Unit) {
         MainScreenNavigationItem(
             title =  stringResource(id = R.string.playlists),
             icon = Icons.Default.LibraryMusic,
-            onClick = {}
+            onClick = onClickPlaylists
         )
         MainScreenNavigationItem(
             title =  stringResource(id = R.string.favorites),
             icon = Icons.Default.FavoriteBorder,
-            onClick = {}
+            onClick = onClickFavorites
         )
         MainScreenNavigationItem(
             title =  stringResource(id = R.string.settings),

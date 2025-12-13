@@ -51,7 +51,8 @@ import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchVie
 @Composable
 fun SearchScreen(
     searchViewModel: SearchViewModel,
-    onBackClick : () -> Unit
+    onBackClick : () -> Unit,
+    onTrackClick : (Long) -> Unit
 ) {
     val screenState by searchViewModel.searchScreenState.collectAsState()
     var text by remember { mutableStateOf("") }
@@ -168,7 +169,7 @@ fun SearchScreen(
                     }
 
                     items(tracks.size) { index ->
-                        TrackListItem(track = tracks[index])
+                        TrackListItem(track = tracks[index], onClick = onTrackClick)
                     }
                 }
             }

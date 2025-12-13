@@ -8,4 +8,17 @@ data class Track(
     val image: String,
     var favorite: Boolean,
     var playlistId: Long
-)
+) {
+    companion object {
+        val EMPTY = Track(
+            id = 0L,
+            trackName = "",
+            artistName = "",
+            trackTime = "0:00",
+            image = "",
+            favorite = false,
+            playlistId = 0L
+        )
+    }
+}
+
