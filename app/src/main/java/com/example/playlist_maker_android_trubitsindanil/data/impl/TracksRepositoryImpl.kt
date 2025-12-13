@@ -8,11 +8,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 
 class TracksRepositoryImpl(
-    private val scope: CoroutineScope
+    private val database: DatabaseMock
 ) : TracksRepository {
-    private val database = DatabaseMock(
-        scope = scope
-    )
 
     override suspend fun searchTracks(expression: String): List<Track> {
         delay(1000)
@@ -49,5 +46,9 @@ class TracksRepositoryImpl(
 
     override fun getTrackById(trackId: Long) : Track? {
         return database.getTrackById(trackId)
+    }
+
+    override fun addTrackToFavorite(track : Track) {
+        database.addTrackToFavorite(track.copy(favorite = true))
     }
 }

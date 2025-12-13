@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.ui.view.TrackListItem
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.PlaylistsViewModel
+import com.example.playlist_maker_android_trubitsindanil.R
 
 
 
@@ -52,13 +54,12 @@ fun PlaylistScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White // Белый фон как на скрине
+        color = Color.White
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            // 1. Кнопка "Назад" (Верхняя часть)
             item {
                 IconButton(
                     onClick = onBackClick,
@@ -72,12 +73,10 @@ fun PlaylistScreen(
                 }
             }
 
-            // 2. Обложка и описание плейлиста (Заголовок)
             item {
                 PlaylistHeader(playlist)
             }
 
-            // 3. Список треков
             items(playlist?.tracks ?: emptyList<Track>()) { track ->
                 TrackListItem(track = track, onClick = onTrackClick)
             }
@@ -92,19 +91,16 @@ fun PlaylistHeader(playlist: Playlist?) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        // Обложка плейлиста
-        // В реальном проекте используйте AsyncImage (Coil/Glide)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f) // Квадратная картинка
+                .aspectRatio(1f)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.LightGray), // Заглушка цвета
+                .background(Color.LightGray),
             contentAlignment = Alignment.Center
         ) {
-            // Имитация картинки-мема
+
             Image(
-                // Вставьте сюда painterResource(R.drawable.your_image), если есть
                 painter = rememberVectorPainter(Icons.Default.MusicNote),
                 contentDescription = "Cover",
                 modifier = Modifier.size(120.dp),
@@ -115,7 +111,7 @@ fun PlaylistHeader(playlist: Playlist?) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Название "Best songs 2021"
+
         Text(
             text = playlist?.name ?: "",
             fontSize = 26.sp,
@@ -125,7 +121,7 @@ fun PlaylistHeader(playlist: Playlist?) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // Год "2022"
+
         Text(
             text = playlist?.description ?: "",
             fontSize = 16.sp,
@@ -134,18 +130,17 @@ fun PlaylistHeader(playlist: Playlist?) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // Метаданные "300 минут • 98 треков"
-
+        val allTimeInSec = playlist?.tracks?.sumOf {track -> parseTrackTimeToSeconds(track.trackTime)} ?: 0
         Text(
-            text = playlist?.tracks?.size.toString() ?: "",
+            text = "${allTimeInSec / 60} ${stringResource(R.string.minutes)} • ${playlist?.tracks?.size.toString() ?: ""} ${stringResource(R.string.tracks)}",
             fontSize = 16.sp,
             color = Color.Black
         )
 
-        // Кнопка "Три точки" (Menu)
+
         IconButton(
-            onClick = { /* TODO */ },
-            modifier = Modifier.padding(top = 4.dp) // Небольшой отступ
+            onClick = { },
+            modifier = Modifier.padding(top = 4.dp)
 
         ) {
             Icon(
@@ -159,3 +154,18 @@ fun PlaylistHeader(playlist: Playlist?) {
     }
 }
 
+
+fun parseTrackTimeToSeconds(trackTimeString: String): Int {
+    return try {
+        val parts = trackTimeString.split(":")
+        if (parts.size == 2) {
+            val minutes = parts[0].toInt()
+            val seconds = parts[1].toInt()
+            minutes * 60 + seconds
+        } else {
+            0
+        }
+    } catch (e: Exception) {
+        0
+    }
+}

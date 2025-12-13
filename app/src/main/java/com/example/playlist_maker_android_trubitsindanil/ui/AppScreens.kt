@@ -9,5 +9,7 @@ enum class AppScreens(name : String) {
 
     Playlist("playlist"),
     AddPlaylist("addPlaylist"),
-    TrackDetails("trackDetails")
+    TrackDetails("trackDetails"),
+
+    FavoriteTracks("favoriteTracks")
 }

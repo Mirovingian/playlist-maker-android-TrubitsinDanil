@@ -50,7 +50,7 @@ fun MainScreen(navController : NavHostController) {
         MainScreenContent({ navController.navigate(AppScreens.Search.name) },
             { navController.navigate(AppScreens.Settings.name) },
             {navController.navigate(AppScreens.Playlists.name)},
-            {})
+            {navController.navigate(AppScreens.FavoriteTracks.name)})
     }
 
 }

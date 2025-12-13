@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SegmentedButtonDefaults.Icon
@@ -31,6 +32,7 @@ import com.example.playlist_maker_android_trubitsindanil.ui.view_model.Playlists
 import com.example.playlist_maker_android_trubitsindanil.R
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
 
 @Composable
 fun PlaylistsScreen(
@@ -48,21 +50,7 @@ fun PlaylistsScreen(
                 .fillMaxSize()
                 .padding(top = 8.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.LightGray.copy(alpha = 0.7f)),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable { navigateBack() },
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.search)
-                )
-                Text("Playlists", fontSize = 32.sp)
-            }
+            CommonTopBar(onBackClick = navigateBack, stringResource(R.string.playlists))
 
             Column(
                 modifier = Modifier
@@ -74,7 +62,6 @@ fun PlaylistsScreen(
                         PlaylistListItem(playlist = playlists[index]) {
                             navigateToPlaylist(playlists[index].id)
                         }
-                        HorizontalDivider(thickness = 0.5.dp)
                     }
                 }
             }
@@ -84,14 +71,22 @@ fun PlaylistsScreen(
                 .padding(32.dp)
                 .align(Alignment.BottomEnd),
             onClick = { addNewPlaylist() },
-            containerColor = Color.Gray,
+            containerColor = Color.LightGray,
             contentColor = Color.White,
-            shape = CircleShape
+            shape = CircleShape,
+            elevation = FloatingActionButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp,
+                focusedElevation = 0.dp,
+                hoveredElevation = 0.dp
+            )
         ) {
             Icon(
                 imageVector = Icons.Filled.Add,
-                contentDescription = stringResource(R.string.add_playlist)
+                contentDescription = null,
+                modifier = Modifier.padding(16.dp)
             )
+
         }
     }
 }

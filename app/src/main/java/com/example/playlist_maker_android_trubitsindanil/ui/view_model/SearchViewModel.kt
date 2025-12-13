@@ -8,6 +8,7 @@ import com.example.playlist_maker_android_trubitsindanil.data.impl.SearchHistory
 import com.example.playlist_maker_android_trubitsindanil.data.SearchState
 import com.example.playlist_maker_android_trubitsindanil.data.Word
 import com.example.playlist_maker_android_trubitsindanil.data.impl.TracksRepositoryImpl
+import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TrackSearchInteractor
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +20,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class SearchViewModel() : ViewModel() {
+class SearchViewModel(
+    private val tracksRepository : TracksRepository,
+    private val searchHistoryRepository : SearchHistoryRepository
+) : ViewModel() {
 
-    private val tracksRepository = TracksRepositoryImpl(scope =viewModelScope)
     private val _searchScreenState = MutableStateFlow<SearchState>(SearchState.Initial)
     val searchScreenState  = _searchScreenState.asStateFlow()
-
-    private val searchHistoryRepository = SearchHistoryRepositoryImpl(scope = viewModelScope)
     private val _searchQuery = MutableStateFlow("")
 
     init {
@@ -66,11 +67,11 @@ class SearchViewModel() : ViewModel() {
 
 
     companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
+        fun getViewModelFactory(tracksRepository : TracksRepository, searchHistoryRepository : SearchHistoryRepository): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel() as T
+                    return SearchViewModel(tracksRepository , searchHistoryRepository) as T
                 }
             }
     }

@@ -16,11 +16,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class PlaylistsViewModel() : ViewModel() {
-    private val playlistsRepository: PlaylistsRepository = PlaylistsRepositoryImpl(scope = viewModelScope)
-    private val tracksRepository: TracksRepository = TracksRepositoryImpl(scope = viewModelScope)
-    // Используем мок базы вместо репозитория
-    private val databaseRepository: DatabaseMock = DatabaseMock(scope = viewModelScope)
+class PlaylistsViewModel(
+    private val playlistsRepository : PlaylistsRepository,
+    private val tracksRepository : TracksRepository
+) : ViewModel() {
 
     val playlists: Flow<List<Playlist>> = flow {
         val collectedPlaylists = mutableListOf<Playlist>()
@@ -29,7 +28,7 @@ class PlaylistsViewModel() : ViewModel() {
             emit(collectedPlaylists.toList())
         }
     }
-    val favoriteList: Flow<List<Track>> = databaseRepository.getFavoriteTracks()
+   // val favoriteList: Flow<List<Track>> = databaseRepository.getFavoriteTracks()
 
     fun createNewPlayList(namePlaylist: String, description: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -70,12 +69,16 @@ class PlaylistsViewModel() : ViewModel() {
         return playlistsRepository.getPlaylist(playlistId)
     }
 
+    fun addTrackToFavorite(track : Track) {
+        tracksRepository.addTrackToFavorite(track)
+    }
+
     companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
+        fun getViewModelFactory(tracksRepository: TracksRepository, playlistsRepository: PlaylistsRepository): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return PlaylistsViewModel() as T
+                    return PlaylistsViewModel(playlistsRepository, tracksRepository) as T
                 }
             }
     }

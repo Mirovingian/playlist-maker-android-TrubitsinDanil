@@ -3,15 +3,15 @@ package com.example.playlist_maker_android_trubitsindanil.data
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class DatabaseMock(
-    private val scope: CoroutineScope,
-) {
+class DatabaseMock() {
+    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val historyList = mutableListOf<String>()
     private val _historyUpdates = MutableSharedFlow<Unit>()
     private val playlists = mutableListOf<Playlist>()
@@ -20,7 +20,7 @@ class DatabaseMock(
     init {
         tracks = listTracks //TEST
 
-        playlists.add(Playlist(id = 3, name = "MyPlaylist2", description = "COOOOOL!!!", emptyList()))
+        //playlists.add(Playlist(id = 3, name = "MyPlaylist2", description = "COOOOOL!!!", emptyList()))
     }
 
     fun getHistory(): List<String> {
@@ -95,6 +95,11 @@ class DatabaseMock(
         emit(favorites)
     }
 
+    fun addTrackToFavorite(track : Track) {
+        tracks.removeIf { it.id == track.id }
+        tracks.add(track)
+    }
+
     fun deleteTracksByPlaylistId(playlistId: Long) {
         tracks.removeIf { it.playlistId == playlistId }
     }
@@ -125,7 +130,7 @@ val listTracks = mutableListOf(
         trackTime = "2:55",
         image = "",
         favorite = false,
-        playlistId = 3
+        playlistId = 0
     ),
 
 
@@ -136,7 +141,7 @@ val listTracks = mutableListOf(
         trackTime = "2:55",
         image = "",
         favorite = false,
-        playlistId = 44
+        playlistId = 0
     ),
 
     Track(
@@ -146,7 +151,7 @@ val listTracks = mutableListOf(
         trackTime = "5:41",
         image = "",
         favorite = false,
-        playlistId = 44
+        playlistId = 0
     ),
 
     Track(
@@ -156,7 +161,7 @@ val listTracks = mutableListOf(
         trackTime = "3:11",
         image = "",
         favorite = false,
-        playlistId = 44
+        playlistId = 0
     ),
 
     Track(
@@ -166,7 +171,7 @@ val listTracks = mutableListOf(
         trackTime = "4:19",
         image = "",
         favorite = false,
-        playlistId = 44
+        playlistId = 0
     ),
 
     Track(

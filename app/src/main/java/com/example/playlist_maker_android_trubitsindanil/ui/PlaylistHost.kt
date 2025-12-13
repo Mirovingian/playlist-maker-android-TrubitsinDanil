@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.AddPlaylistScreen
+import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.FavoritesScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SearchScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SettingsScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchViewModel
@@ -86,6 +87,12 @@ fun PlaylistHost(
             val trackId = backStackEntry.arguments?.getLong("trackId") ?: 0L
 
             TrackDetailsScreen(playlistsViewModel = playlistsViewModel, trackId = trackId, onBackClick = {navController.popBackStack()})
+        }
+
+        composable(
+            route = AppScreens.FavoriteTracks.name,
+        ) {
+            FavoritesScreen()
         }
     }
 }

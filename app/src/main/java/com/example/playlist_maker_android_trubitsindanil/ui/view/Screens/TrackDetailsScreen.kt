@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +34,7 @@ import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
 import com.example.playlist_maker_android_trubitsindanil.ui.view.PlaylistListItem
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.PlaylistsViewModel
-
+import com.example.playlist_maker_android_trubitsindanil.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,9 +75,8 @@ fun TrackDetailsScreen(
             Text(text = track?.artistName ?: "", fontSize = 16.sp)
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Кнопки
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                // КНОПКА "ДОБАВИТЬ" (Триггер для BottomSheet)
                 Surface(
                     shape = CircleShape,
                     color = Color(0xFFD1D1D1),
@@ -84,39 +84,39 @@ fun TrackDetailsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.AddBox,
-                        contentDescription = "Добавить",
+                        contentDescription = "Add",
                         tint = Color.White,
                         modifier = Modifier.padding(12.dp)
                     )
                 }
 
-                Surface(shape = CircleShape, color = Color(0xFFD1D1D1), modifier = Modifier.size(52.dp)) {
+                Surface(shape = CircleShape, color = Color(0xFFD1D1D1), modifier = Modifier
+                    .size(52.dp)
+                    .clickable { if (track != null) playlistsViewModel.addTrackToFavorite(track)}) {
                     Icon(Icons.Default.FavoriteBorder, contentDescription = null, tint = Color.White, modifier = Modifier.padding(12.dp))
                 }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Длительность", color = Color.Gray)
+                Text(stringResource(R.string.duration), color = Color.Gray)
                 Text(text = track?.trackTime ?: "")
             }
         }
 
-        // --- MODAL BOTTOM SHEET ---
+
         if (showBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = { showBottomSheet = false },
                 sheetState = sheetState,
                 containerColor = Color.White,
                 dragHandle = {
-                    // 1. Изменение цвета dragHandle на серый (например, DarkGray)
                     BottomSheetDefaults.DragHandle(
                         color = Color(0xFFCFCFCF),
                         width = 50.dp
                     )
                 }
             ) {
-                // Контент внутри шторки
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

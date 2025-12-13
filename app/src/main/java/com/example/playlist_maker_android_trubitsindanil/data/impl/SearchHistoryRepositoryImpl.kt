@@ -4,8 +4,7 @@ import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
 import kotlinx.coroutines.CoroutineScope
 
-class SearchHistoryRepositoryImpl(private val scope: CoroutineScope): SearchHistoryRepository {
-    private val database = DatabaseMock(scope = scope)
+class SearchHistoryRepositoryImpl(private val database: DatabaseMock): SearchHistoryRepository {
 
     override suspend fun getHistory(): List<String> {
         return database.getHistory()

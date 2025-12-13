@@ -19,4 +19,6 @@ interface TracksRepository {
 
     fun getTracksByPlaylistId(playlistId: Long) : List<Track>
     fun getTrackById(trackId: Long) : Track?
+
+    fun addTrackToFavorite(track : Track)
 }
