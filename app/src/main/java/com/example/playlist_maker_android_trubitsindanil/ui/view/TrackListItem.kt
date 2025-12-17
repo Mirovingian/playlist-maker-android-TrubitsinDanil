@@ -28,11 +28,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.R
 
@@ -55,13 +59,25 @@ fun TrackListItem(track: Track, onClick : (Long) -> Unit) {
                 .background(Color.LightGray),
             contentAlignment = Alignment.Center
         ) {
-            // Если бы были реальные картинки, тут был бы AsyncImage
-            Icon(
-                imageVector = Icons.Default.MusicNote,
-                contentDescription = null,
-                tint = Color.DarkGray,
-                modifier = Modifier.padding(8.dp)
-            )
+            if (track.image.isEmpty()) {
+                Icon(
+                    imageVector = Icons.Default.MusicNote,
+                    contentDescription = null,
+                    tint = Color.DarkGray,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+            else {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(track.image) // URL, откуда нужно загрузить изображение
+                        .crossfade(true) // Опционально: эффект плавного перехода
+                        .build(),
+                    contentDescription = "Track Artwork",
+                    modifier = Modifier.size(48.dp),
+                    contentScale = ContentScale.Crop // Как обрезать/масштабировать изображение
+                )
+            }
         }
 
         Spacer(modifier = Modifier.width(12.dp))

@@ -12,7 +12,6 @@ class TracksRepositoryImpl(
 ) : TracksRepository {
 
     override suspend fun searchTracks(expression: String): List<Track> {
-        delay(1000)
         return database.searchTracks(expression)
     }
 

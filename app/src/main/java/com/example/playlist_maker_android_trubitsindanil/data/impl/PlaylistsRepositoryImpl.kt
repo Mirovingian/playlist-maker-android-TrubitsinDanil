@@ -3,7 +3,6 @@ package com.example.playlist_maker_android_trubitsindanil.data.impl
 import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
 import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.domain.api.PlaylistsRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 class PlaylistsRepositoryImpl(

@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
@@ -50,6 +53,9 @@ fun TrackDetailsScreen(
     val playlists by playlistsViewModel.playlists.collectAsState(emptyList())
     val track = playlistsViewModel.getTrackById(trackId)
 
+    if (track == null)
+        return
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -62,17 +68,31 @@ fun TrackDetailsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Image(
-                painter = painterResource(id = android.R.drawable.ic_menu_gallery),
-                contentDescription = null,
-                modifier = Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
+            if (track.image.isEmpty()) {
+                Image(
+                    painter = painterResource(id = android.R.drawable.ic_menu_gallery),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
+            else {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(track.image)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
 
             Spacer(modifier = Modifier.height(24.dp))
-            Text(text = track?.trackName ?: "", fontSize = 22.sp, fontWeight = FontWeight.Bold
+            Text(text = track.trackName , fontSize = 22.sp, fontWeight = FontWeight.Bold
             )
-            Text(text = track?.artistName ?: "", fontSize = 16.sp)
+            Text(text = track.artistName, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(48.dp))
 
 
@@ -92,7 +112,7 @@ fun TrackDetailsScreen(
 
                 Surface(shape = CircleShape, color = Color(0xFFD1D1D1), modifier = Modifier
                     .size(52.dp)
-                    .clickable { if (track != null) playlistsViewModel.addTrackToFavorite(track)}) {
+                    .clickable { playlistsViewModel.addTrackToFavorite(track)}) {
                     Icon(Icons.Default.FavoriteBorder, contentDescription = null, tint = Color.White, modifier = Modifier.padding(12.dp))
                 }
             }
@@ -100,7 +120,7 @@ fun TrackDetailsScreen(
             Spacer(modifier = Modifier.height(32.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(R.string.duration), color = Color.Gray)
-                Text(text = track?.trackTime ?: "")
+                Text(text = track.trackTime)
             }
         }
 

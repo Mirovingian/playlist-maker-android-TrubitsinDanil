@@ -1,6 +1,9 @@
 package com.example.playlist_maker_android_trubitsindanil.data
 
 import android.util.Log
+import com.example.playlist_maker_android_trubitsindanil.data.dto.TracksSearchRequest
+import com.example.playlist_maker_android_trubitsindanil.data.dto.TracksSearchResponse
+import com.example.playlist_maker_android_trubitsindanil.domain.api.NetworkClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -9,19 +12,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class DatabaseMock() {
+class DatabaseMock(private val networkClient: NetworkClient) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val historyList = mutableListOf<String>()
     private val _historyUpdates = MutableSharedFlow<Unit>()
     private val playlists = mutableListOf<Playlist>()
     private var tracks = mutableListOf<Track>()
 
-    init {
-        tracks = listTracks //TEST
-
-        //playlists.add(Playlist(id = 3, name = "MyPlaylist2", description = "COOOOOL!!!", emptyList()))
-    }
 
     fun getHistory(): List<String> {
         return historyList.toList()
@@ -104,8 +105,44 @@ class DatabaseMock() {
         tracks.removeIf { it.playlistId == playlistId }
     }
 
-    fun searchTracks(expression: String): List<Track> {
-        return tracks.filter { it.trackName.contains(expression, true) }
+    suspend fun searchTracks(expression: String): List<Track> = withContext(Dispatchers.IO) {
+        val response = networkClient.doRequest(TracksSearchRequest(expression))
+
+        if (response.resultCode == 0 && response is TracksSearchResponse) {
+
+            val incomingTracks = response.results.map { dto ->
+                Track(
+                    id = dto.id,
+                    trackName = dto.trackName,
+                    artistName = dto.artistName,
+                    trackTime = formatTrackTime(dto.trackTimeMillis),
+                    image = dto.image ?: "",
+                    favorite = false,
+                    playlistId = 0
+                )
+            }
+
+            // 1. Получаем список ID уже существующих треков
+            val existingTrackIds = tracks.map { it.id }.toSet()
+
+            // 2. Фильтруем входящие треки, оставляя только те, ID которых нет в existingTrackIds
+            val uniqueNewTracks = incomingTracks.filter { it.id !in existingTrackIds }
+
+            // 3. Добавляем уникальные треки в tracks
+            tracks.addAll(uniqueNewTracks)
+
+            // 4. Возвращаем все треки, полученные из сети (включая неуникальные, если нужно)
+            // Если вы хотите возвращать только те, что добавили: return@withContext uniqueNewTracks
+            // Если вы хотите возвращать все, что получили: return@withContext incomingTracks
+            return@withContext incomingTracks
+        } else {
+            return@withContext emptyList()
+        }
+    }
+
+    // Вспомогательный метод для конвертации мс в "мм:сс"
+    private fun formatTrackTime(millis: Long): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(millis)
     }
 
     fun getTracksByPlaylistId(playListId: Long): List<Track> {
