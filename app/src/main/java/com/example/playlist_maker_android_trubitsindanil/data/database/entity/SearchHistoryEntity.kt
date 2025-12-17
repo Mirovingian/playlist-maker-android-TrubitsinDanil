@@ -8,4 +8,16 @@ data class SearchHistoryEntity(
     @PrimaryKey
     val text: String,
     val timestamp: Long = System.currentTimeMillis() // Чтобы сортировать по времени добавления
-)
+) {
+    override fun toString(): String {
+        return text
+    }
+}
+
+fun String.toSearchHistoryEntity(): SearchHistoryEntity {
+    return SearchHistoryEntity(
+        text = this,
+        timestamp = System.currentTimeMillis()
+    )
+}
+

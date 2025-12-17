@@ -2,7 +2,8 @@ package com.example.playlist_maker_android_trubitsindanil.creator
 
 import android.content.Context
 import androidx.room.Room
-import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
+import com.example.playlist_maker_android_trubitsindanil.data.api.ITunesApiService
+import com.example.playlist_maker_android_trubitsindanil.data.database.AppDatabase
 import com.example.playlist_maker_android_trubitsindanil.data.impl.PlaylistsRepositoryImpl
 import com.example.playlist_maker_android_trubitsindanil.data.impl.SearchHistoryRepositoryImpl
 import com.example.playlist_maker_android_trubitsindanil.data.impl.TracksRepositoryImpl
@@ -10,15 +11,9 @@ import com.example.playlist_maker_android_trubitsindanil.data.network.RetrofitNe
 import com.example.playlist_maker_android_trubitsindanil.domain.api.NetworkClient
 import com.example.playlist_maker_android_trubitsindanil.domain.api.PlaylistsRepository
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
-import com.example.playlist_maker_android_trubitsindanil.domain.api.TrackSearchInteractor
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
-import com.example.playlist_maker_android_trubitsindanil.domain.impl.TrackSearchInteractorImpl
-import kotlinx.coroutines.CoroutineScope
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.playlist_maker_android_trubitsindanil.data.api.ITunesApiService
-import com.example.playlist_maker_android_trubitsindanil.data.database.AppDatabase
-
 
 object Creator {
     private const val BASE_URL = "https://itunes.apple.com"
@@ -31,32 +26,43 @@ object Creator {
     private val iTunesService = retrofit.create(ITunesApiService::class.java)
     private val networkClient: NetworkClient = RetrofitNetworkClient(iTunesService)
 
-    private val database: DatabaseMock = DatabaseMock(networkClient)
+    // База данных все так же lateinit
+    private lateinit var database: AppDatabase
 
-//    private lateinit var database: AppDatabase
-//
-//    fun initDatabase(context: Context) {
-//        database = Room.databaseBuilder(
-//            context,
-//            AppDatabase::class.java,
-//            "playlist-maker-db"
-//        ).build()
-//    }
+    fun initDatabase(context: Context) {
+        // Проверяем, инициализирована ли уже переменная, чтобы не создавать DB дважды
+        if (!this::database.isInitialized) {
+            database = Room.databaseBuilder(
+                context.applicationContext, // Лучше использовать applicationContext
+                AppDatabase::class.java,
+                "playlist-maker-db"
+            ).build()
+        }
+    }
 
-    private val tracksRepositoryImpl = TracksRepositoryImpl(database)
-    private val playlistsRepositoryImpl = PlaylistsRepositoryImpl(database)
-    private val searchHistoryRepositoryImpl = SearchHistoryRepositoryImpl(database)
+    // ИСПРАВЛЕНИЕ: Используем by lazy.
+    // Репозиторий создастся только при первом вызове getTracksRepository()
+    private val tracksRepositoryImpl by lazy {
+        TracksRepositoryImpl(database, networkClient)
+    }
+
+    private val playlistsRepositoryImpl by lazy {
+        PlaylistsRepositoryImpl(database)
+    }
+
+    private val searchHistoryRepositoryImpl by lazy {
+        SearchHistoryRepositoryImpl(database)
+    }
+
     fun getTracksRepository(): TracksRepository {
         return tracksRepositoryImpl
     }
 
-    fun getPlaylistsRepository() : PlaylistsRepository {
+    fun getPlaylistsRepository(): PlaylistsRepository {
         return playlistsRepositoryImpl
     }
 
-    fun getSearchHistoryRepository() : SearchHistoryRepository {
+    fun getSearchHistoryRepository(): SearchHistoryRepository {
         return searchHistoryRepositoryImpl
     }
-
-
 }

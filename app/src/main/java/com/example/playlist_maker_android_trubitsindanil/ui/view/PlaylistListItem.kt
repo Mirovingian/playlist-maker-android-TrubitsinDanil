@@ -28,7 +28,7 @@ import com.example.playlist_maker_android_trubitsindanil.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun PlaylistListItem(playlist: Playlist, onClick: suspend (Long) -> Unit) {
+fun PlaylistListItem(playlist: Playlist, onClick:  (Long) -> Unit) {
 
     val scope = rememberCoroutineScope()
 

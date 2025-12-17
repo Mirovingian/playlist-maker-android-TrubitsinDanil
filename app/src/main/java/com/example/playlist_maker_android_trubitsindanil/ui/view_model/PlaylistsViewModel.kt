@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class PlaylistsViewModel(
@@ -21,13 +22,13 @@ class PlaylistsViewModel(
     private val tracksRepository : TracksRepository
 ) : ViewModel() {
 
-    val playlists: Flow<List<Playlist>> = flow {
-        val collectedPlaylists = mutableListOf<Playlist>()
-        playlistsRepository.getAllPlaylists().collect { playlist ->
-            collectedPlaylists.addAll(playlist)
-            emit(collectedPlaylists.toList())
-        }
-    }
+//    val playlists: Flow<List<Playlist>> = flow {
+//        val collectedPlaylists = mutableListOf<Playlist>()
+//        playlistsRepository.getAllPlaylists().collect { playlist ->
+//            collectedPlaylists.addAll(playlist)
+//            emit(collectedPlaylists.toList())
+//        }
+//    }
    // val favoriteList: Flow<List<Track>> = databaseRepository.getFavoriteTracks()
 
     fun createNewPlayList(namePlaylist: String, description: String) {
@@ -36,42 +37,47 @@ class PlaylistsViewModel(
         }
     }
 
-    suspend fun insertTrackToPlaylist(track: Track, playlistId: Long) {
-        tracksRepository.insertTrackToPlaylist(track, playlistId)
+    fun insertTrackToPlaylist(track: Track, playlistId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tracksRepository.insertTrackToPlaylist(track, playlistId)
+        }
     }
 
-    suspend fun toggleFavorite(track: Track, isFavorite: Boolean) {
-        tracksRepository.updateTrackFavoriteStatus(track, isFavorite)
+    fun updateTrackFavoriteStatus(track: Track, isFavorite: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tracksRepository.updateTrackFavoriteStatus(track, isFavorite)
+        }
     }
 
-    suspend fun deleteTrackFromPlaylist(track: Track) {
-        tracksRepository.deleteTrackFromPlaylist(track)
+    fun deleteTrackFromPlaylist(track: Track) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tracksRepository.deleteTrackFromPlaylist(track)
+        }
     }
 
-    suspend fun deletePlaylistById(id: Long) {
-        tracksRepository.deleteTracksByPlaylistId(id)
-        playlistsRepository.deletePlaylistById(id)
+    fun deletePlaylistById(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tracksRepository.deleteTracksByPlaylistId(id)
+            playlistsRepository.deletePlaylistById(id)
+        }
     }
 
-    suspend fun isExist(track: Track): Track? {
-        return tracksRepository.getTrackByNameAndArtist(track = track).firstOrNull()
-    }
+    fun getTracksByPlaylistId(playlistId: Long): Flow<List<Track>> = flow {
+        emit(tracksRepository.getTracksByPlaylistId(playlistId))
+    }.flowOn(Dispatchers.IO)
 
-    fun getTracksByPlaylistId(playlistId: Long): List<Track> {
-        return tracksRepository.getTracksByPlaylistId(playlistId)
-    }
+    fun getTrackById(trackId: Long): Flow<Track?> = flow {
+        emit(tracksRepository.getTrackById(trackId))
+    }.flowOn(Dispatchers.IO)
 
-    fun getTrackById(trackId: Long) : Track? {
-        return tracksRepository.getTrackById(trackId)
-    }
-
-    fun getPlaylist(playlistId : Long) : Flow<Playlist?> {
+    fun getPlaylist(playlistId: Long): Flow<Playlist?> {
         return playlistsRepository.getPlaylist(playlistId)
     }
 
-    fun addTrackToFavorite(track : Track) {
-        tracksRepository.addTrackToFavorite(track)
+    fun getAllPlaylists(): Flow<List<Playlist>> {
+        return playlistsRepository.getAllPlaylists()
     }
+
 
     companion object {
         fun getViewModelFactory(tracksRepository: TracksRepository, playlistsRepository: PlaylistsRepository): ViewModelProvider.Factory =

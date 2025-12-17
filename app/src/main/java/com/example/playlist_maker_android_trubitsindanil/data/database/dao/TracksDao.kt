@@ -23,6 +23,9 @@ interface TracksDao {
     @Query("SELECT * FROM tracks WHERE id = :id")
     suspend fun getTrackById(id: Long): TrackEntity?
 
+    @Query("SELECT * FROM tracks")
+    suspend fun getAllTracks(): List<TrackEntity>
+
     @Query("SELECT * FROM tracks WHERE favorite = 1 ORDER BY id DESC")
     suspend fun getFavoriteTracks(): List<TrackEntity>
 

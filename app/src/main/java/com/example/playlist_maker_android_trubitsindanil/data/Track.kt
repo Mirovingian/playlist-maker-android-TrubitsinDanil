@@ -1,5 +1,7 @@
 package com.example.playlist_maker_android_trubitsindanil.data
 
+import com.example.playlist_maker_android_trubitsindanil.data.database.entity.TrackEntity
+
 data class Track(
     val id: Long,
     val trackName: String,
@@ -22,3 +24,14 @@ data class Track(
     }
 }
 
+fun Track.toEntity(): TrackEntity {
+    return TrackEntity(
+        id = this.id,
+        trackName = this.trackName,
+        artistName = this.artistName,
+        trackTime = this.trackTime,
+        image = this.image,
+        favorite = this.favorite,
+        playlistId = this.playlistId
+    )
+}

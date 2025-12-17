@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        //Creator.initDatabase(this)
+        Creator.initDatabase(this)
         setContent {
             PlaylistHost(AppScreens.Main, searchViewModel, playlistsViewModel)
         }

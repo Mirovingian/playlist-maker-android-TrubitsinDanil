@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -42,7 +43,9 @@ fun PlaylistsScreen(
     navigateToPlaylist: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
-    val playlists by playlistsViewModel.playlists.collectAsState(emptyList())
+    val playlists by playlistsViewModel.getAllPlaylists().collectAsState(emptyList())
+
+    playlists.forEach { Log.d("MY", it.toString()) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(

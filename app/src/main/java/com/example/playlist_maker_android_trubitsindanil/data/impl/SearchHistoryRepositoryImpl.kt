@@ -1,16 +1,18 @@
 package com.example.playlist_maker_android_trubitsindanil.data.impl
 
 import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
+import com.example.playlist_maker_android_trubitsindanil.data.database.AppDatabase
+import com.example.playlist_maker_android_trubitsindanil.data.database.entity.toSearchHistoryEntity
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
 import kotlinx.coroutines.CoroutineScope
 
-class SearchHistoryRepositoryImpl(private val database: DatabaseMock): SearchHistoryRepository {
+class SearchHistoryRepositoryImpl(private val database: AppDatabase): SearchHistoryRepository {
 
     override suspend fun getHistory(): List<String> {
-        return database.getHistory()
+        return database.SearchHistoryDao().getHistory().map { it.toString() }
     }
 
-    override fun addToHistory(word: String) {
-        database.addToHistory(word = word)
+    override suspend fun addToHistory(word: String) {
+        database.SearchHistoryDao().insert(item = word.toSearchHistoryEntity())
     }
 }
