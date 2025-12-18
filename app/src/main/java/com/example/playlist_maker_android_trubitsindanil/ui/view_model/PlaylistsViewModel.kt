@@ -78,6 +78,9 @@ class PlaylistsViewModel(
         return playlistsRepository.getAllPlaylists()
     }
 
+    fun getFavoriteTracks(): Flow<List<Track>> = flow {
+        emit( tracksRepository.getFavoriteTracks())
+    }.flowOn(Dispatchers.IO)
 
     companion object {
         fun getViewModelFactory(tracksRepository: TracksRepository, playlistsRepository: PlaylistsRepository): ViewModelProvider.Factory =

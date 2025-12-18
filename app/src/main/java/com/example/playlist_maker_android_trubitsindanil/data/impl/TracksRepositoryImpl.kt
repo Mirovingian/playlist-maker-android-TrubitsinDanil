@@ -42,13 +42,12 @@ class TracksRepositoryImpl(
                         dto.trackTimeMillis
                     ),
                     image = dto.image ?: "",
-                    favorite = false,
+                    favorite = database.TracksDao().getTrackById(dto.id)?.favorite ?: false,
                     playlistId = 0
                 )
             }
 
             newTracks.forEach { database.TracksDao().insertTrack(it.toEntity()) }
-
 
             return@withContext newTracks
         } else {
@@ -61,9 +60,7 @@ class TracksRepositoryImpl(
     }
 
     override suspend fun insertTrackToPlaylist(track: Track, playlistId: Long) {
-       // Log.d("MY", "${track.toString()} to playlistID = ${playlistId}")
         database.TracksDao().insertTrack(track.copy(playlistId = playlistId).toEntity())
-        // database.TracksDao().getTracksByPlaylistId(playlistId).map { it.toTrack() }.forEach { Log.d("MY", it.toString()) }
     }
 
     override suspend fun deleteTrackFromPlaylist(track: Track) {
@@ -91,7 +88,6 @@ class TracksRepositoryImpl(
     override suspend fun getTrackById(trackId: Long): Track? {
         return database.TracksDao().getTrackById(trackId)!!.toTrack()
     }
-
     private fun formatTrackTime(millis: Long): String {
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(millis)
     }

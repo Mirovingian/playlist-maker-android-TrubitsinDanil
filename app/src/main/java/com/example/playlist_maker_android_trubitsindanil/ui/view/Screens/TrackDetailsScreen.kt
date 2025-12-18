@@ -2,6 +2,7 @@
 
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.playlist_maker_android_trubitsindanil.R
+import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
 import com.example.playlist_maker_android_trubitsindanil.ui.view.PlaylistListItem
@@ -53,6 +55,13 @@ fun TrackDetailsScreen(
     // initial = null позволяет отследить состояние загрузки
     val trackState by playlistsViewModel.getTrackById(trackId).collectAsState(initial = null)
 
+    //val favoriteTracks by playlistsViewModel.getFavoriteTracks().collectAsState(initial = emptyList())
+
+//    if (favoriteTracks.isNotEmpty())
+//        favoriteTracks.forEach { Log.d("MY", it.toString()) }
+//    else
+//        Log.d("MY", "no favorites")
+
     // Если трек еще не загрузился, показываем индикатор загрузки
     val track = trackState
     if (track == null) {
@@ -61,6 +70,8 @@ fun TrackDetailsScreen(
         }
         return
     }
+
+    var isFavorite by remember { mutableStateOf(track.favorite) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -137,7 +148,7 @@ fun TrackDetailsScreen(
                 }
 
                 // Кнопка Избранное
-                val isFavorite = track.favorite
+
                 Surface(
                     shape = CircleShape,
                     color = Color(0xFFF0F0F0),
@@ -145,7 +156,8 @@ fun TrackDetailsScreen(
                         .size(52.dp)
                         .clickable {
                             // Переключаем статус (если true -> false, если false -> true)
-                            playlistsViewModel.updateTrackFavoriteStatus(track, !isFavorite)
+                            isFavorite = !isFavorite
+                            playlistsViewModel.updateTrackFavoriteStatus(track, isFavorite)
                         }
                 ) {
                     Icon(
