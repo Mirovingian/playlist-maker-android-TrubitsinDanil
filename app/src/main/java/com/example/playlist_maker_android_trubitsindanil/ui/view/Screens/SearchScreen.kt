@@ -1,7 +1,9 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -34,8 +37,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
@@ -93,9 +98,11 @@ fun SearchScreen(
             },
             leadingIcon = {
                 Icon(
-//                    modifier = Modifier.clickable {
-//                        searchViewModel.performSearch(text)
-//                    },
+                    modifier = Modifier.clickable {
+                        if (!historyFlow.isEmpty())
+                            text = historyFlow[0]
+                        searchViewModel.updateQuery(text)
+                    },
                     imageVector = Icons.Filled.Search,
                     contentDescription = "Search Icon",
                     tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
@@ -153,30 +160,71 @@ fun SearchScreen(
             }
 
             is SearchState.Success -> {
-                //focusManager.clearFocus()
                 val tracks = (screenState as SearchState.Success).list
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    if (tracks.isEmpty()) {
-
-                        item {
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text(stringResource(R.string.tracks_were_not_found))
-                            }
+                if (tracks.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize().padding(bottom = 500.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.tracks_was_not_found),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .padding(bottom = 16.dp)
+                            )
+                            Text(
+                                text = stringResource(R.string.tracks_were_not_found),
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center
+                            )
                         }
                     }
-
-                    items(tracks.size) { index ->
-                        TrackListItem(track = tracks[index], onClick = onTrackClick)
+                }
+                else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(tracks.size) { index ->
+                            TrackListItem(track = tracks[index], onClick = onTrackClick)
+                        }
                     }
                 }
             }
 
             is SearchState.Fail -> {
                 val error = (screenState as SearchState.Fail).error
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("${stringResource(R.string.error)}: $error", color = Color.Red)
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(bottom = 500.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.connect_error),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(120.dp)
+                                .padding(bottom = 16.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.connection_troubles),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(Modifier.height(20.dp))
+                        Text(
+                            text = stringResource(R.string.download_failed),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }

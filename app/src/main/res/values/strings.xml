@@ -17,7 +17,7 @@
     <string name="thanks">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="uri">https://yandex.ru/legal/practicum_offer</string>
 
-    <string name="tracks_were_not_found">Треки не были найдены</string>
+    <string name="tracks_were_not_found">Ничего не нашлось</string>
     <string name="input_string_for_search">Введите строку для поиска</string>
     <string name="error">Ошибка</string>
     <string name="add_playlist">Добавить плейлист</string>
@@ -28,4 +28,7 @@
     <string name="duration">Длительность</string>
     <string name="tracks">Треков</string>
     <string name="minutes">минут</string>
+
+    <string name="connection_troubles">Проблемы со связью</string>
+    <string name="download_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
 </resources>

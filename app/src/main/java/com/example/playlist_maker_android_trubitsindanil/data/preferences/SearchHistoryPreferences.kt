@@ -38,7 +38,7 @@ class SearchHistoryPreferences(
                     mutableListOf()
                 }
 
-                history.remove(word) // удаляем дубликат, если был
+                history.remove(word)
                 history.add(0, word)
 
                 val subList = history.subList(0, minOf(history.size, MAX_ENTRIES)) // храним не более 10 элементов
