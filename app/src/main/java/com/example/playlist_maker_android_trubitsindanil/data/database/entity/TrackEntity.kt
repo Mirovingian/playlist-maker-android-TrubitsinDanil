@@ -16,8 +16,6 @@ data class TrackEntity(
     val playlistId: Long
 )
 
-
-
 fun TrackEntity.toTrack(): Track{
     return Track(
         id = this.id,

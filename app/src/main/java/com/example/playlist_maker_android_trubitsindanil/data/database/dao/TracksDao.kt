@@ -13,7 +13,6 @@ interface TracksDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrack(track: TrackEntity)
-
     @Delete
     suspend fun deleteTrack(track: TrackEntity)
 

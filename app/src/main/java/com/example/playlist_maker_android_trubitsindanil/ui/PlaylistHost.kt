@@ -1,15 +1,6 @@
 package com.example.playlist_maker_android_trubitsindanil.ui
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,7 +11,6 @@ import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Favorit
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SearchScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SettingsScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchViewModel
-import kotlin.getValue
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.MainScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.PlaylistScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.PlaylistsScreen

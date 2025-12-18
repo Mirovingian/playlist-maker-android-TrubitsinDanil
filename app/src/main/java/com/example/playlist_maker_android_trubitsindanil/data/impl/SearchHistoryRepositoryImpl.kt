@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.example.playlist_maker_android_trubitsindanil.data.preferences.SearchHistoryPreferences
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+
 
 class SearchHistoryRepositoryImpl(
     private val dataStore: DataStore<Preferences>

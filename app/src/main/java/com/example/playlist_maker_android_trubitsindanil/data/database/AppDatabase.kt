@@ -12,7 +12,7 @@ import com.example.playlist_maker_android_trubitsindanil.data.database.entity.Tr
         TrackEntity::class,
         PlaylistEntity::class
     ],
-    version = 1, // Если приложение уже установлено, нужно удалить его или увеличить версию + миграция
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

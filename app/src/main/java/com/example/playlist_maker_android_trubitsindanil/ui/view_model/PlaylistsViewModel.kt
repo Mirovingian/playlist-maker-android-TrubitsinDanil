@@ -5,15 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.data.Track
-import com.example.playlist_maker_android_trubitsindanil.data.impl.PlaylistsRepositoryImpl
-import com.example.playlist_maker_android_trubitsindanil.data.impl.TracksRepositoryImpl
 import com.example.playlist_maker_android_trubitsindanil.domain.api.PlaylistsRepository
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -22,15 +19,6 @@ class PlaylistsViewModel(
     private val playlistsRepository : PlaylistsRepository,
     private val tracksRepository : TracksRepository
 ) : ViewModel() {
-
-//    val playlists: Flow<List<Playlist>> = flow {
-//        val collectedPlaylists = mutableListOf<Playlist>()
-//        playlistsRepository.getAllPlaylists().collect { playlist ->
-//            collectedPlaylists.addAll(playlist)
-//            emit(collectedPlaylists.toList())
-//        }
-//    }
-   // val favoriteList: Flow<List<Track>> = databaseRepository.getFavoriteTracks()
 
     fun createNewPlayList(namePlaylist: String, description: String) {
         viewModelScope.launch(Dispatchers.IO) {

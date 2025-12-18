@@ -21,6 +21,7 @@
     <string name="input_string_for_search">Введите строку для поиска</string>
     <string name="error">Ошибка</string>
     <string name="add_playlist">Добавить плейлист</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="new_playlist">Новый плейлист</string>
     <string name="name">Название*</string>
     <string name="description">Описание</string>
@@ -38,4 +39,7 @@
     <string name="merge_playlists">Слить плейлист с...</string>
     <string name="no_other_playlists">Нет других плейлистов</string>
     <string name="merged_with">Слит с</string>
+    <string name="no_created_playlists">Нет созданных плейлистов</string>
+
+
 </resources>

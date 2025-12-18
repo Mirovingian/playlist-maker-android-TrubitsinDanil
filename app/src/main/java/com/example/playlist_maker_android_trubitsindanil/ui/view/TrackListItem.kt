@@ -1,11 +1,8 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,27 +17,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.playlist_maker_android_trubitsindanil.data.Track
-import com.example.playlist_maker_android_trubitsindanil.R
-
 
 
 @Composable
@@ -55,7 +44,6 @@ fun TrackListItem(track: Track, onClick : (Long) -> Unit, onLongClick : (Long) -
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Мини-обложка трека
         Box(
             modifier = Modifier
                 .size(48.dp)
@@ -74,21 +62,20 @@ fun TrackListItem(track: Track, onClick : (Long) -> Unit, onLongClick : (Long) -
             else {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(track.image) // URL, откуда нужно загрузить изображение
-                        .crossfade(true) // Опционально: эффект плавного перехода
+                        .data(track.image)
+                        .crossfade(true)
                         .build(),
-                    contentDescription = "Track Artwork",
+                    contentDescription = null,
                     modifier = Modifier.size(48.dp),
-                    contentScale = ContentScale.Crop // Как обрезать/масштабировать изображение
+                    contentScale = ContentScale.Crop
                 )
             }
         }
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Информация о треке
         Column(
-            modifier = Modifier.weight(1f) // Занимает всё доступное место
+            modifier = Modifier.weight(1f)
         ) {
             Text(
                 text = track.trackName,
@@ -104,7 +91,6 @@ fun TrackListItem(track: Track, onClick : (Long) -> Unit, onLongClick : (Long) -
             )
         }
 
-        // Стрелочка справа
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = "Go to track",

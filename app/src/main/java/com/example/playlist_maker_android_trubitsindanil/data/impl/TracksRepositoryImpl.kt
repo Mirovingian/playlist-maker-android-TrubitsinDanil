@@ -9,17 +9,11 @@ import com.example.playlist_maker_android_trubitsindanil.data.dto.TracksSearchRe
 import com.example.playlist_maker_android_trubitsindanil.data.toEntity
 import com.example.playlist_maker_android_trubitsindanil.domain.api.NetworkClient
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.collections.map
-import kotlin.collections.toSet
-
 
 class TracksRepositoryImpl(
     private val database: AppDatabase,

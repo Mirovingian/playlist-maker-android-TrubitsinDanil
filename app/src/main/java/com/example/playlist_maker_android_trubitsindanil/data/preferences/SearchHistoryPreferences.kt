@@ -3,7 +3,6 @@ package com.example.playlist_maker_android_trubitsindanil.data.preferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -19,7 +18,6 @@ class SearchHistoryPreferences(
     private val dataStore: DataStore<Preferences>,
     private val coroutineScope: CoroutineScope = CoroutineScope(CoroutineName("search-history-preferences") + SupervisorJob())
 ) {
-
     companion object {
         private val preferencesKey = stringPreferencesKey("search_history")
     }
@@ -41,7 +39,7 @@ class SearchHistoryPreferences(
                 history.remove(word)
                 history.add(0, word)
 
-                val subList = history.subList(0, minOf(history.size, MAX_ENTRIES)) // храним не более 10 элементов
+                val subList = history.subList(0, minOf(history.size, MAX_ENTRIES))
                 val updatedString = subList.joinToString(SEPARATOR)
 
                 preferences.toMutablePreferences().apply {

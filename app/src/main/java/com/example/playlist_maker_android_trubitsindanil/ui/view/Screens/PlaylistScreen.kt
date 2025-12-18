@@ -2,19 +2,16 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -24,10 +21,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.data.Playlist
@@ -132,7 +127,7 @@ fun PlaylistHeader(playlist: Playlist?) {
 
         val allTimeInSec = playlist?.tracks?.sumOf {track -> parseTrackTimeToSeconds(track.trackTime)} ?: 0
         Text(
-            text = "${allTimeInSec / 60} ${stringResource(R.string.minutes)} • ${playlist?.tracks?.size.toString() ?: ""} ${stringResource(R.string.tracks)}",
+            text = "${allTimeInSec / 60} ${stringResource(R.string.minutes)} • ${playlist?.tracks?.size.toString()} ${stringResource(R.string.tracks)}",
             fontSize = 16.sp,
             color = Color.Black
         )

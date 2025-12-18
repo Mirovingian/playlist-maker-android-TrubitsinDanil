@@ -1,6 +1,5 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,8 +62,8 @@ fun SearchScreen(
     var text by remember { mutableStateOf("") }
 
     var isFocused by remember { mutableStateOf(false) }
-    val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
+//    val focusRequester = remember { FocusRequester() }
+//    val focusManager = LocalFocusManager.current
 
     val historyFlow by searchViewModel.getHistoryList().collectAsState(initial = emptyList())
 
