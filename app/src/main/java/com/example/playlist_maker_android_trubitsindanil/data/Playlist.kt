@@ -7,7 +7,11 @@ data class Playlist(
     val name: String,
     val description: String,
     var tracks: List<Track>
-)
+) {
+    companion object {
+        val EMPTY = Playlist(name = "", description = "", tracks = emptyList())
+    }
+}
 
 fun Playlist.toEntity(): PlaylistEntity {
     return PlaylistEntity(

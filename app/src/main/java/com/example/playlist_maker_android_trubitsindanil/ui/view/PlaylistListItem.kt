@@ -2,6 +2,7 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,14 +29,17 @@ import com.example.playlist_maker_android_trubitsindanil.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun PlaylistListItem(playlist: Playlist, onClick:  (Long) -> Unit) {
+fun PlaylistListItem(playlist: Playlist, onClick: (Long) -> Unit, onLongClick: (Long) -> Unit = {}) {
 
     val scope = rememberCoroutineScope()
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { scope.launch { onClick(playlist.id) } }
+            .combinedClickable(
+                onClick = { onClick(playlist.id) },
+                onLongClick = { onLongClick(playlist.id) }
+            )
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -34,4 +34,8 @@
 
     <string name="favorite_tracks">Избранные треки</string>
     <string name="your_mediatec_is_empty">Ваша медиотека пуста</string>
+
+    <string name="merge_playlists">Слить плейлист с...</string>
+    <string name="no_other_playlists">Нет других плейлистов</string>
+    <string name="merged_with">Слит с</string>
 </resources>

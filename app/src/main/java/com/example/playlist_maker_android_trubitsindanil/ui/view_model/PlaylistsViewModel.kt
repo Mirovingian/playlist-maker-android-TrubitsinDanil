@@ -90,6 +90,17 @@ class PlaylistsViewModel(
             .distinctUntilChanged()
     }
 
+    fun mergePlaylists(sourcePlaylist: Playlist, targetPlaylist: Playlist) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            sourcePlaylist.tracks.forEach { track ->
+                tracksRepository.insertTrackToPlaylist(track, targetPlaylist.id)
+            }
+
+            deletePlaylistById(sourcePlaylist.id)
+        }
+    }
+
     companion object {
         fun getViewModelFactory(tracksRepository: TracksRepository, playlistsRepository: PlaylistsRepository): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
