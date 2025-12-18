@@ -92,7 +92,7 @@ fun PlaylistHost(
         composable(
             route = AppScreens.FavoriteTracks.name,
         ) {
-            FavoritesScreen()
+            FavoritesScreen(playlistsViewModel = playlistsViewModel, onBackClick = {navController.popBackStack()}, onTrackClick = {trackId -> navController.navigate("${AppScreens.TrackDetails.name}/$trackId")})
         }
     }
 }

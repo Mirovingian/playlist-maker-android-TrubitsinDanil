@@ -55,12 +55,6 @@ fun TrackDetailsScreen(
     // initial = null позволяет отследить состояние загрузки
     val trackState by playlistsViewModel.getTrackById(trackId).collectAsState(initial = null)
 
-    //val favoriteTracks by playlistsViewModel.getFavoriteTracks().collectAsState(initial = emptyList())
-
-//    if (favoriteTracks.isNotEmpty())
-//        favoriteTracks.forEach { Log.d("MY", it.toString()) }
-//    else
-//        Log.d("MY", "no favorites")
 
     // Если трек еще не загрузился, показываем индикатор загрузки
     val track = trackState

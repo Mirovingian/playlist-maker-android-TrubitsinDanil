@@ -9,7 +9,6 @@ import com.example.playlist_maker_android_trubitsindanil.data.SearchState
 import com.example.playlist_maker_android_trubitsindanil.data.Word
 import com.example.playlist_maker_android_trubitsindanil.data.impl.TracksRepositoryImpl
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
-import com.example.playlist_maker_android_trubitsindanil.domain.api.TrackSearchInteractor
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -4,6 +4,7 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,11 +44,14 @@ import com.example.playlist_maker_android_trubitsindanil.R
 
 
 @Composable
-fun TrackListItem(track: Track, onClick : (Long) -> Unit) {
+fun TrackListItem(track: Track, onClick : (Long) -> Unit, onLongClick : (Long) -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick(track.id) }
+            .combinedClickable(
+                onClick = { onClick(track.id) },
+                onLongClick = { onLongClick(track.id) }
+            )
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

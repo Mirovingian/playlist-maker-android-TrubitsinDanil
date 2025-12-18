@@ -3,7 +3,6 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
 import com.example.playlist_maker_android_trubitsindanil.data.Playlist
 import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.data.impl.PlaylistsRepositoryImpl
@@ -11,7 +10,9 @@ import com.example.playlist_maker_android_trubitsindanil.data.impl.TracksReposit
 import com.example.playlist_maker_android_trubitsindanil.domain.api.PlaylistsRepository
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -78,9 +79,16 @@ class PlaylistsViewModel(
         return playlistsRepository.getAllPlaylists()
     }
 
-    fun getFavoriteTracks(): Flow<List<Track>> = flow {
-        emit( tracksRepository.getFavoriteTracks())
-    }.flowOn(Dispatchers.IO)
+    fun getFavoriteTracks(): Flow<List<Track>> {
+        return flow {
+            while (true) {
+                val favorites = tracksRepository.getFavoriteTracks()
+                emit(favorites)
+                delay(100)
+            }
+        }.flowOn(Dispatchers.IO)
+            .distinctUntilChanged()
+    }
 
     companion object {
         fun getViewModelFactory(tracksRepository: TracksRepository, playlistsRepository: PlaylistsRepository): ViewModelProvider.Factory =
