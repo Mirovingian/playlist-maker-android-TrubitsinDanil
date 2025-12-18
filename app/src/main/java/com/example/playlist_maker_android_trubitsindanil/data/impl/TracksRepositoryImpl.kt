@@ -33,7 +33,8 @@ class TracksRepositoryImpl(
         val response = networkClient.doRequest(TracksSearchRequest(expression))
 
         if (response.resultCode == 0 && response is TracksSearchResponse) {
-            val newTracks = response.results.map { dto ->
+
+            val foundedTracks = response.results.map { dto ->
                 Track(
                     id = dto.id,
                     trackName = dto.trackName,
@@ -42,14 +43,19 @@ class TracksRepositoryImpl(
                         dto.trackTimeMillis
                     ),
                     image = dto.image ?: "",
-                    favorite = database.TracksDao().getTrackById(dto.id)?.favorite ?: false,
+                    favorite = false,
                     playlistId = 0
                 )
             }
 
-            newTracks.forEach { database.TracksDao().insertTrack(it.toEntity()) }
+            for (track in foundedTracks) {
+                val existedTrack = database.TracksDao().getTrackById(track.id)
+                if (existedTrack == null) {
+                    database.TracksDao().insertTrack(track.toEntity())
+                }
+            }
 
-            return@withContext newTracks
+            return@withContext foundedTracks
         } else {
             return@withContext emptyList()
         }
