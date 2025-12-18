@@ -63,7 +63,7 @@ class SearchViewModel(
         _searchScreenState.update { SearchState.Initial }
     }
 
-    suspend fun getHistoryList() = searchHistoryRepository.getHistory()
+    fun getHistoryList() = searchHistoryRepository.getHistory()
 
 
     companion object {

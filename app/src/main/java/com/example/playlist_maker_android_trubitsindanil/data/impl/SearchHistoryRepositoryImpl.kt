@@ -1,18 +1,23 @@
 package com.example.playlist_maker_android_trubitsindanil.data.impl
 
-import com.example.playlist_maker_android_trubitsindanil.data.DatabaseMock
-import com.example.playlist_maker_android_trubitsindanil.data.database.AppDatabase
-import com.example.playlist_maker_android_trubitsindanil.data.database.entity.toSearchHistoryEntity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.example.playlist_maker_android_trubitsindanil.data.preferences.SearchHistoryPreferences
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class SearchHistoryRepositoryImpl(private val database: AppDatabase): SearchHistoryRepository {
+class SearchHistoryRepositoryImpl(
+    private val dataStore: DataStore<Preferences>
+) : SearchHistoryRepository {
 
-    override suspend fun getHistory(): List<String> {
-        return database.SearchHistoryDao().getHistory().map { it.toString() }
+    private val searchHistoryPreferences = SearchHistoryPreferences(dataStore)
+
+    override fun getHistory(): Flow<List<String>> {
+        return searchHistoryPreferences.getEntries()
     }
 
     override suspend fun addToHistory(word: String) {
-        database.SearchHistoryDao().insert(item = word.toSearchHistoryEntity())
+        searchHistoryPreferences.addEntry(word)
     }
 }

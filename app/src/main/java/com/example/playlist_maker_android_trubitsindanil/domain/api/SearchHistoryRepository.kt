@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchHistoryRepository {
 
-    suspend fun getHistory(): List<String>
+    fun getHistory(): Flow<List<String>>
 
     suspend fun addToHistory(word: String)
 }

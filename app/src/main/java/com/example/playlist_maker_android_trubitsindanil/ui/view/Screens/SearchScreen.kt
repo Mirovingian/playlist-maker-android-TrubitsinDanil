@@ -56,14 +56,13 @@ fun SearchScreen(
 ) {
     val screenState by searchViewModel.searchScreenState.collectAsState()
     var text by remember { mutableStateOf("") }
-    var historyList by remember { mutableStateOf<List<String>>(emptyList()) }
+
     var isFocused by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(text) {
-        historyList = searchViewModel.getHistoryList()
-    }
+    val historyFlow by searchViewModel.getHistoryList().collectAsState(initial = emptyList())
+
 
     LaunchedEffect(text) {
         searchViewModel.updateQuery(text)
@@ -131,9 +130,9 @@ fun SearchScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        if (isFocused && text.isEmpty() && historyList.isNotEmpty()) {
+        if (isFocused && text.isEmpty() && historyFlow.isNotEmpty()) {
             HistoryRequests(
-                historyList = historyList,
+                historyList = historyFlow,
                 onClick = { word ->
                     text = word
                 }
