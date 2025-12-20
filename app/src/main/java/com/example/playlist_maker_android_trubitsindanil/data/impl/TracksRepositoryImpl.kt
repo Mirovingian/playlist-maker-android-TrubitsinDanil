@@ -10,7 +10,9 @@ import com.example.playlist_maker_android_trubitsindanil.data.toEntity
 import com.example.playlist_maker_android_trubitsindanil.domain.api.NetworkClient
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.collections.map
@@ -22,8 +24,8 @@ class TracksRepositoryImpl(
 
 
     override suspend fun searchTracks(expression: String): List<Track> = withContext(Dispatchers.IO) {
+        delay(1000)
         val response = networkClient.doRequest(TracksSearchRequest(expression))
-
         if (response.resultCode == 0 && response is TracksSearchResponse) {
 
             val foundedTracks = response.results.map { dto ->
@@ -49,7 +51,7 @@ class TracksRepositoryImpl(
 
             return@withContext foundedTracks
         } else {
-            return@withContext emptyList()
+            throw IOException()
         }
     }
 

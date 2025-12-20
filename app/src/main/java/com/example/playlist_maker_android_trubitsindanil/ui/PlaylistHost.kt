@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.AddPlaylistScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.FavoritesScreen
-import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SearchScreen
+import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search.SearchScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.SettingsScreen
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchViewModel
 import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.MainScreen

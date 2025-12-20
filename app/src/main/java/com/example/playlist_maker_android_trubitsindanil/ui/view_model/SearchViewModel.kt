@@ -3,7 +3,7 @@ package com.example.playlist_maker_android_trubitsindanil.ui.view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.playlist_maker_android_trubitsindanil.data.SearchState
+import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search.SearchState
 import com.example.playlist_maker_android_trubitsindanil.domain.api.SearchHistoryRepository
 import com.example.playlist_maker_android_trubitsindanil.domain.api.TracksRepository
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +41,7 @@ class SearchViewModel(
         _searchQuery.value = query
     }
 
-    private fun performSearch(request: String) {
+    fun performSearch(request: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _searchScreenState.update { SearchState.Searching }

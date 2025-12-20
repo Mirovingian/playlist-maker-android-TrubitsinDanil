@@ -107,7 +107,10 @@ fun AddPlaylistScreen(
 
 
         Button(
-            onClick = { playlistsViewModel.createNewPlayList(name, description) },
+            onClick = {
+                playlistsViewModel.createNewPlayList(name, description)
+                onBackClick()
+            },
             enabled = isButtonEnabled,
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier

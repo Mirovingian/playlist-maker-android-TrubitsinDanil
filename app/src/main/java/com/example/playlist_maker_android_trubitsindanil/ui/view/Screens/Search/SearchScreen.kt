@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens
+package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -32,10 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -43,7 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
-import com.example.playlist_maker_android_trubitsindanil.data.SearchState
+import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search.SearchState
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
 import com.example.playlist_maker_android_trubitsindanil.ui.view.HistoryRequests
 import com.example.playlist_maker_android_trubitsindanil.ui.view.TrackListItem
@@ -62,8 +60,6 @@ fun SearchScreen(
     var text by remember { mutableStateOf("") }
 
     var isFocused by remember { mutableStateOf(false) }
-//    val focusRequester = remember { FocusRequester() }
-//    val focusManager = LocalFocusManager.current
 
     val historyFlow by searchViewModel.getHistoryList().collectAsState(initial = emptyList())
 
@@ -98,9 +94,10 @@ fun SearchScreen(
             leadingIcon = {
                 Icon(
                     modifier = Modifier.clickable {
-                        if (!historyFlow.isEmpty())
+                        if (!historyFlow.isEmpty()) {
                             text = historyFlow[0]
-                        searchViewModel.updateQuery(text)
+                        }
+                        searchViewModel.performSearch(text)
                     },
                     imageVector = Icons.Filled.Search,
                     contentDescription = "Search Icon",
