@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,11 +39,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
-import com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search.SearchState
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
 import com.example.playlist_maker_android_trubitsindanil.ui.view.HistoryRequests
 import com.example.playlist_maker_android_trubitsindanil.ui.view.TrackListItem
@@ -220,9 +222,45 @@ fun SearchScreen(
                             style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center
                         )
+                        Spacer(Modifier.height(20.dp))
+                        RetryButton(onClick = {
+                            if (!historyFlow.isEmpty()) {
+                                searchViewModel.performSearch(historyFlow[0])
+                            }
+                            else {
+                                searchViewModel.performSearch("")
+                            }
+                        })
                     }
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun RetryButton(
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(30.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF007AFF),
+            contentColor = Color.White
+        ),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 2.dp
+        ),
+    ) {
+        Text(
+            text = stringResource(R.string.update),
+            style = TextStyle(
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Medium
+            )
+        )
     }
 }
