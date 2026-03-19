@@ -1,6 +1,8 @@
 package com.example.playlist_maker_android_trubitsindanil.ui.view.Screens.Search
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,7 +46,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_trubitsindanil.R
+import com.example.playlist_maker_android_trubitsindanil.data.Track
 import com.example.playlist_maker_android_trubitsindanil.ui.view.CommonTopBar
+import com.example.playlist_maker_android_trubitsindanil.ui.view.ExecutorTracksItem
 import com.example.playlist_maker_android_trubitsindanil.ui.view.HistoryRequests
 import com.example.playlist_maker_android_trubitsindanil.ui.view.TrackListItem
 import com.example.playlist_maker_android_trubitsindanil.ui.view_model.SearchViewModel
@@ -64,7 +68,6 @@ fun SearchScreen(
     var isFocused by remember { mutableStateOf(false) }
 
     val historyFlow by searchViewModel.getHistoryList().collectAsState(initial = emptyList())
-
 
     LaunchedEffect(text) {
         searchViewModel.updateQuery(text)
@@ -184,11 +187,27 @@ fun SearchScreen(
                     }
                 }
                 else {
+
+                    val executorTracks = mutableListOf<Track>()
+
+                    for (track in tracks) {
+                        if (track.artistName == text) {
+                            executorTracks.add(track)
+                        }
+                    }
+
+
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        item {
+                            if (executorTracks.isNotEmpty())
+                                ExecutorTracksItem(tracks = executorTracks, onTrackClick = onTrackClick)
+                        }
                         items(tracks.size) { index ->
-                            TrackListItem(track = tracks[index], onClick = onTrackClick)
+
+                                TrackListItem(track = tracks[index], onClick = onTrackClick)
+
                         }
                     }
                 }
@@ -237,6 +256,7 @@ fun SearchScreen(
         }
     }
 }
+
 
 
 @Composable

@@ -16,7 +16,7 @@ class RetrofitNetworkClient(private val api: ITunesApiService) : NetworkClient {
                     query = dto.expression,
                     media = "music",
                     entity = "song",
-                    limit = 10
+                    limit = 50
                 )
 
                 else -> BaseResponse().apply {
